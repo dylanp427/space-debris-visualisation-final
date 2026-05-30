@@ -1,0 +1,139 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "title": {"text":"Number of pieces of space junk in different size categories","color":"#ffaa44","fontSize":16,
+  "subtitle":"This chart provides a visual representation of space objects by size","subtitleColor":"white","subtitleFontSize":11,"anchor":"middle","offset":20},
+  "width": 400,
+  "height": 200,
+  "padding": 5,
+
+  "data": [
+    {
+      "name": "table",
+      "values": [
+        {"category": "over 10cm", "amount": 54000},
+        {"category": "10cm to 1cm", "amount": 1200000},
+        {"category": " 1cm to 1mm", "amount": 140000000}
+      ]
+    }
+  ],
+
+  
+  "signals": [
+    {
+      "name": "scaleType",
+      "value": "log",
+      "bind": {"input": "select", "options": ["linear", "log"], "name": "Scale type "}
+    },
+    {
+      "name": "tooltip",
+      "value": {},
+      "on": [
+        {"events": "rect:pointerover", "update": "datum"},
+        {"events": "rect:pointerout",  "update": "{}"}
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "xscale",
+      "type": "band",
+      "domain": {"data": "table", "field": "category"},
+      "range": "width",
+      "padding": 0.05,
+      "round": true
+    },
+    {
+      "name": "yscale_linear",
+      "type": "linear",
+      "domain": {"data": "table", "field": "amount"},
+      "nice": true,
+      "range": "height"
+    },
+    {
+      "name": "yscale_log",
+      "type": "log",
+      "domain": [1, 140000000],
+      "nice": true,
+      "range": "height"
+    }
+  ],
+
+  "axes": [
+    { "orient": "bottom", "scale": "xscale", "labelColor": "white", "titleColor": "white", "domainColor": "white", "tickColor": "white" },
+    {
+      "orient": "left", "scale": "yscale_linear",
+      "labelColor": "white", "titleColor": "white", "domainColor": "white", "tickColor": "white",
+      "encode": {
+        "axis": {"update": {"opacity": {"signal": "scaleType == 'linear' ? 1 : 0"}}},
+        "labels": {"update": {"opacity": {"signal": "scaleType == 'linear' ? 1 : 0"}}},
+        "ticks": {"update": {"opacity": {"signal": "scaleType == 'linear' ? 1 : 0"}}},
+        "title": {"update": {"opacity": {"signal": "scaleType == 'linear' ? 1 : 0"}}}
+      }
+    },
+    {
+      "orient": "left", "scale": "yscale_log",
+      "labelColor": "white", "titleColor": "white", "domainColor": "white", "tickColor": "white",
+      "encode": {
+        "axis": {"update": {"opacity": {"signal": "scaleType == 'log' ? 1 : 0"}}},
+        "labels": {"update": {"opacity": {"signal": "scaleType == 'log' ? 1 : 0"}}},
+        "ticks": {"update": {"opacity": {"signal": "scaleType == 'log' ? 1 : 0"}}},
+        "title": {"update": {"opacity": {"signal": "scaleType == 'log' ? 1 : 0"}}}
+      }
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "rect",
+      "from": {"data":"table"},
+      "encode": {
+        "enter": {
+          "x": {"scale": "xscale", "field": "category"},
+          "width": {"scale": "xscale", "band": 1}
+        },
+        "update": {
+          "y": {"signal": "scaleType == 'log' ? scale('yscale_log', datum.amount) : scale('yscale_linear', datum.amount)"},
+          "y2": {"signal": "scaleType == 'log' ? scale('yscale_log', 1) : scale('yscale_linear', 0)"},
+          "fill": {"value": "steelblue"}
+        },
+        "hover": {
+          "fill": {"value": "red"}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "align": {"value": "center"},
+          "baseline": {"value": "bottom"},
+          "fill": {"value": "#333"}
+        },
+        "update": {
+          "x": {"scale": "xscale", "signal": "tooltip.category", "band": 0.5},
+          "y": {"signal": "scaleType == 'log' && tooltip.amount ? scale('yscale_log', tooltip.amount) - 2 : scale('yscale_linear', tooltip.amount) - 2"},
+          "text": {"signal": "tooltip.amount"},
+          "fillOpacity": [
+            {"test": "datum === tooltip", "value": 0},
+            {"value": 1}
+          ]
+        }
+      }
+    }
+  ],
+  "config": {
+    "title": {
+      "color": "white",
+      "subtitleColor": "white"
+    },
+    "legend": {
+      "titleColor": "white",
+      "labelColor": "white"
+    },
+    "axis":{
+      "titleColor": "white",
+      "labelColor": "white"
+    }
+  }
+}

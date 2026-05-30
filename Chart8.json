@@ -1,0 +1,60 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v6.json",
+  "description": "COSMOS 2251 DEB example of a space debris decay trajectory.",
+  "title": {"text":"Debris decay trajectory","color":"#ffaa44","fontSize":16,
+  "subtitle":"A fragment of COSMOS 2251 apogee and perigee altitudes over time","subtitleColor":"white","subtitleFontSize":11,"anchor":"middle","offset":20},
+  "background": "black", 
+  "width": 320,
+  "height": 240,
+  "data": {
+    "url": "Apogee-Perigee-34859-GP.csv",
+    "format": {
+      "type": "csv",
+      "parse": {
+        "Apogee": "number",
+        "Perigee": "number",
+        "Date/Time (UTC)": "date"
+      }
+    }
+  },
+  "params": [
+    {
+      "name": "metric_type",
+      "value": 1,
+      "bind": {
+        "input": "select",
+        "options": [0, 0.5, 1],
+        "labels": ["Perigee", "Average", "Apogee"],
+        "name": "Metric: "
+      }
+    }
+  ],
+  "transform": [
+    {
+      "calculate": "datum.Apogee*(metric_type) + datum.Perigee*(1-metric_type)",
+      "as": "cat"
+    }
+  ],
+  "mark": { "type": "line", "point": true },
+  "encoding": {
+    "x": {
+      "field": "Date/Time (UTC)",
+      "type": "temporal",
+      "title": "Date/Time (UTC)"
+    },
+    "y": { "field": "cat", "type": "quantitative", "title": "Altitude(m)" }
+  },
+  "config": {
+    "text": { "fill": "white" },
+    "view": { "stroke": "transparent" },
+    "title": { "color": "white", "subtitleColor": "white" },
+    "legend": { "titleColor": "white", "labelColor": "white" },
+    "axis": { 
+      "titleColor": "white", 
+      "labelColor": "white",
+      "gridColor": "#333333",
+      "domainColor": "white",
+      "tickColor": "white"
+    }
+  }
+}

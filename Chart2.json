@@ -1,0 +1,246 @@
+{
+  "$schema": "https://vega.github.io/schema/vega/v6.json",
+  "title": {"text":"Nomogram of space junk impact energy as a function of angle and mass","color":"#ffaa44","fontSize":16,"subtitle":"Mass is in grams, Energy is in joules for context an apple falling 1m has 1 Joule of energy ","subtitleColor":"white","subtitleFontSize":12,"anchor":"middle","frame":"group"},
+  "width": 350,
+  "height": 200,
+  "padding": 5,
+
+  "config": {
+    "axisY": {
+      "titleX": -2,
+      "titleY": 410,
+      "titleAngle": 0,
+      "titleAlign": "right",
+      "titleBaseline": "top"
+    }
+  },
+  
+  
+  "data": [
+    {
+      "name": "cars",
+      "values": [
+      {"Mass": 23.5, "Impact Energy": 1345257.5,"Impact angle":90},
+      {"Mass": 0.015, "Impact Energy": 468,"Impact angle":60}
+      ]
+    },
+    {
+      "name": "fields",
+      "values": [
+        "Mass",
+        "Impact Energy",
+        "Impact angle"
+      ]
+    }
+  ],
+
+  "scales": [
+    {
+      "name": "ord", "type": "point",
+      "range": "width", "round": true,
+      "domain": {"data": "fields", "field": "data"}
+
+    },
+    {
+      "name": "Mass", "type": "linear",
+      "range": [400,0], "zero": false, "nice": true, "type":"log" ,
+      "domain": [0.001,100]
+    },
+    {
+      "name": "Impact Energy", "type": "log",
+      "range": [360,40], "zero": false, "nice": true,
+      "domain": [1,100000000]
+    },
+    {
+      "name": "Impact angle", "type": "linear",
+      "range": [387,359,339,311,283,248,227,210,200,187,173,164,158,155,154], 
+      "zero": false, 
+      "domain": [1,6,8,12,18,30,41,53,62,77,99,120,142,160,180]
+    }
+  ],
+
+  "axes": [
+    {
+      "orient": "left", "zindex": 1,
+      "scale": "Mass", "title": "Mass",
+      "offset": {"scale": "ord", "value": "Mass", "mult": -1},
+      "labelColor": "white",
+      "titleColor": "white",
+      "titleFontSize": 16,
+      "domainColor": "white",
+      "tickColor": "white"
+    },
+    {
+      "orient": "left", "zindex": 1,
+      "scale": "Impact Energy", "title": "Impact Energy",
+      "offset": {"scale": "ord", "value": "Impact Energy", "mult": -1},
+      "labelColor": "white",
+      "titleColor": "white",
+      "titleFontSize": 16,
+      "domainColor": "white",
+      "tickColor": "white"
+    },
+    {
+      "orient": "left", "zindex": 1,
+      "scale": "Impact angle", "title": "Impact Angle",
+      "offset": {"scale": "ord", "value": "Impact angle", "mult": -1},
+      "labelColor": "white",
+      "values": [15,30,45,60,90,120,180],
+      "titleColor": "white",
+      "titleFontSize": 16,
+      "domainColor": "white",
+      "tickColor": "white"
+    }
+  ],
+
+  "marks": [
+    {
+      "type": "group",
+      "from": {"data": "cars"},
+      "marks": [
+        {
+          "type": "line",
+          "from": {"data": "fields"},
+          "encode": {
+            "enter": {
+              "x": {"scale": "ord", "field": "data"},
+              "y": {
+                "scale": {"datum": "data"},
+                "field": {"parent": {"datum": "data"}}
+              },
+              "stroke": {"value": "yellow"},
+              "strokeWidth": {"value": 1.01},
+              "strokeOpacity": {"value": 0.3}
+            }
+          }
+        }
+      ]
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"scale": "ord", "value": "Impact Energy"},
+          "y": {"scale": "Impact Energy", "value": 1000000},
+          "text": {"value": "stick of dynamite"},
+          "fill": {"value": "#ffdd44"},
+          "fontSize": {"value": 12},
+          "align": {"value": "left"},
+          "dx": {"value": 5}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"scale": "ord", "value": "Impact Energy"},
+          "y": {"scale": "Impact Energy", "value": 2000},
+          "text": {"value": "AK-47"},
+          "fill": {"value": "#ffdd44"},
+          "fontSize": {"value": 12},
+          "align": {"value": "left"},
+          "dx": {"value": 5}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"scale": "ord", "value": "Impact Energy"},
+          "y": {"scale": "Impact Energy", "value": 470},
+          "text": {"value": "9mm bullet"},
+          "fill": {"value": "#ffdd44"},
+          "fontSize": {"value": 12},
+          "align": {"value": "left"},
+          "dx": {"value": 5}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"scale": "ord", "value": "Impact Energy"},
+          "y": {"scale": "Impact Energy", "value": 20},
+          "text": {"value": "party popper"},
+          "fill": {"value": "#ffdd44"},
+          "fontSize": {"value": 12},
+          "align": {"value": "left"},
+          "dx": {"value": 5}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"scale": "ord", "value": "Mass"},
+          "y": {"scale": "Mass", "value": 0.015},
+          "text": {"value": "fly"},
+          "fill": {"value": "#ffdd44"},
+          "fontSize": {"value": 12},
+          "align": {"value": "left"},
+          "dx": {"value": 5}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"scale": "ord", "value": "Mass"},
+          "y": {"scale": "Mass", "value": 0.05},
+          "text": {"value": "drop of water"},
+          "fill": {"value": "#ffdd44"},
+          "fontSize": {"value": 12},
+          "align": {"value": "left"},
+          "dx": {"value": 5}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"scale": "ord", "value": "Mass"},
+          "y": {"scale": "Mass", "value": 2},
+          "text": {"value": "small marble"},
+          "fill": {"value": "#ffdd44"},
+          "fontSize": {"value": 12},
+          "align": {"value": "left"},
+          "dx": {"value": 5}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"scale": "ord", "value": "Mass"},
+          "y": {"scale": "Mass", "value": 6.8},
+          "text": {"value": "2 dollar coin"},
+          "fill": {"value": "#ffdd44"},
+          "fontSize": {"value": 12},
+          "align": {"value": "left"},
+          "dx": {"value": 5}
+        }
+      }
+    },
+    {
+      "type": "text",
+      "encode": {
+        "enter": {
+          "x": {"scale": "ord", "value": "Mass"},
+          "y": {"scale": "Mass", "value": 23.5},
+          "text": {"value": "alkaline AA battery"},
+          "fill": {"value": "#ffdd44"},
+          "fontSize": {"value": 12},
+          "align": {"value": "left"},
+          "dx": {"value": 5}
+        }
+      }
+    }
+  ]
+}

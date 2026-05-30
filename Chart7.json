@@ -1,0 +1,49 @@
+{
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "width": 400,
+    "height": 200,
+    "title": {"text":"Notable space debris re-entries","color":"#ffaa44","fontSize":16,"subtitle":"Tracking locations where significant debris has fallen back to Earth","subtitleColor":"white","subtitleFontSize":12,"anchor":"middle","frame":"group","offset":20},
+    "autosize": {"type": "pad", "contains": "padding"},
+    "projection": {"type": "equalEarth"},
+    "layer": [
+    {
+    "data": {
+    "url":
+    "https://raw.githubusercontent.com/FIT3179/Vega-Lite/main/2_symbol_map/js/ne_110m_admin_0_countries.topojson",
+    "format": {"type": "topojson", "feature":
+    "ne_110m_admin_0_countries"}
+    },
+    "mark": {"type": "geoshape", "fill": "lightgray", "stroke":
+    "white"}
+    },
+    {
+    "data": {
+    "url":
+    "https://raw.githubusercontent.com/dylanp427/Space-junk/main/REENTRY.csv"
+    },
+    "mark": {"type": "circle", "tooltip": {"content": "data"}},
+    "encoding": {
+    "longitude": {"field": "Longitude", "type":
+    "quantitative"},
+    "latitude": {"field": "Latitude", "type":
+    "quantitative"}
+    }
+    }
+    ],
+    "config": {
+    "background": "black",
+    "title": {
+      "color": "white",
+      "subtitleColor": "white"
+    },
+    "legend": {
+      "titleColor": "white",
+      "labelColor": "white"
+    },
+    "axis":{
+      "titleColor": "white",
+      "labelColor": "white"
+    }
+  }
+}
+
